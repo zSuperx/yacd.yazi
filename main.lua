@@ -41,8 +41,8 @@ return {
       ya.emit("cd", { path })
       ya.notify {
         title = "cd-paste:",
-        content = "Going to: `" .. path .. "`",
-        level = "info",
+        content = "cd-ing to: `" .. path .. "`",
+        level = "debug",
         timeout = 5,
       }
     end
