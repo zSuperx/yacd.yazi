@@ -1,4 +1,4 @@
-# cd-plus.yazi
+# ya-cd
 
 Just some `cd`-based utilities for the Yazi file manager.
 
@@ -11,4 +11,6 @@ features as I find myself wishing for them.
 
 ## Features
 
-- `cd` to contents of clipboard (if valid directory)
+- Clipboard `cd`
+
+yk what ima just write the readme from github like a loser
