@@ -8,6 +8,34 @@ Just some `cd`-based utilities for the Yazi file manager.
 > This plugin is only created/tested for Unix-like systems, so if you're a rare
 > Windows + Yazi user, I apologize. However, contributions are always welcome.
 
+## Setup
+
+One way or another, create a directory named `ya-cd.yazi/` with this repo's
+`main.lua` into your `~/.config/yazi/plugins/` directory. Then, add a
+`require("ya-cd").setup()` to your `init.lua`.
+
+For example, if using Nix + Home Manager, the below will suffice:
+```nix
+{
+  programs.yazi = {
+    enable = true;
+
+    plugins = {
+      ya-cd = pkgs.fetchFromGitHub {
+        owner = "zSuperx";
+        repo = "ya-cd.yazi";
+        rev = "...";
+        hash = "...";
+      };
+    };
+
+    initLua = ''
+      require("ya-cd").setup()
+    '';
+  };
+}
+```
+
 ## Features
 
 I tend to add features as I find the need for them, but I'm always open to

@@ -96,7 +96,6 @@ local handler = function(args)
   local cwd = get_cwd()
   local last_cwd = get_state("last_cwd") or cwd
   if args.source == "cd" then
-
     set_state("alt_cwd", last_cwd)
 
     local history_file, err = io.open(Plugin_path .. "/history", "w+")
@@ -113,7 +112,6 @@ end
 
 return {
   setup = function()
-
     -- ensure directory exists
     os.execute("mkdir -p " .. Plugin_path)
 
