@@ -55,7 +55,7 @@ local cd = function(path_raw)
 end
 
 --- Attempts to "cd" to the contents of Yazi's clipboard
-local cd_paste = function()
+local cd_clipboard = function()
   -- Get clipboard contents and strip leading and trailing whitespace
   -- since Yazi's copy path feature appends a space to the end
   local clipboard = string.gsub(ya.clipboard(), '^%s*(.-)%s*$', '%1')
@@ -81,7 +81,7 @@ end
 
 --- Table of actions, because Lua doesn't believe in syntactical switch/case statements.
 local actions = {
-  ["paste"] = cd_paste,
+  ["clipboard"] = cd_clipboard,
 
   ["swap"] = cd_swap,
 
