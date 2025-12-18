@@ -1,6 +1,6 @@
-# ya-cd.yazi
+# yacd.yazi
 
-> _"ya-cd" or "yazi-d" or "yet another cd"_
+> _"yacd" or "yazi-d" or "yet another cd"_
 
 Just some `cd`-based utilities for the Yazi file manager.
 
@@ -10,9 +10,9 @@ Just some `cd`-based utilities for the Yazi file manager.
 
 ## Setup
 
-One way or another, create a directory named `ya-cd.yazi/` with this repo's
+One way or another, create a directory named `yacd.yazi/` with this repo's
 `main.lua` into your `~/.config/yazi/plugins/` directory. Then, add a
-`require("ya-cd").setup()` to your `init.lua`.
+`require("yacd").setup()` to your `init.lua`.
 
 For example, if using Nix + Home Manager, the below will suffice:
 ```nix
@@ -21,16 +21,16 @@ For example, if using Nix + Home Manager, the below will suffice:
     enable = true;
 
     plugins = {
-      ya-cd = pkgs.fetchFromGitHub {
+      yacd = pkgs.fetchFromGitHub {
         owner = "zSuperx";
-        repo = "ya-cd.yazi";
+        repo = "yacd.yazi";
         rev = "...";
         hash = "...";
       };
     };
 
     initLua = ''
-      require("ya-cd").setup()
+      require("yacd").setup()
     '';
   };
 }
@@ -51,22 +51,32 @@ jump to that path!
 [[mgr.prepend_keymap]]
 desc = "Go to clipboard"
 on = ["g", "v"]
-run = "plugin ya-cd clipboard"
+run = "plugin yacd clipboard"
 ```
 
-### Aoi Todo `cd`
+### Vim-like marks
 
-This command swaps your directory with an "alternate" directory variable
-(initially set to `~`). Good for jumping back to where you were previously.
+As the name suggests, allows the setting of marks with `yacd set_mark`
+(currently only `a-z` are supported). 
 
-It's pretty much exactly like the "jump back" mark in Vim, if that makes it
-easier to explain (though that's a far more boring name). Hence, I recommend
-using `''` as the keybind to run this.
+Marks can be jumped to with `yacd goto_mark`.
+
+Both commands will display a which-key-like popup asking which mark to
+set/follow.
+
+In addition to marks `a-z`, the `'` mark is automatically set whenever a direct
+`cd` occurs. This is great for returning to where you last jumped to!
+
 
 ```toml
 # Example usage
 [[mgr.prepend_keymap]]
-desc = "Go to previous directory"
-on = ["'", "'"]
-run = "plugin ya-cd swap"
+desc = "Go to mark"
+on = ["'"]
+run = "plugin yacd goto_mark"
+
+[[mgr.prepend_keymap]]
+desc = "Set mark"
+on = ["m"]
+run = "plugin yacd set_mark"
 ```

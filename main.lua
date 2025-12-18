@@ -71,19 +71,60 @@ local cd_clipboard = function()
   end
 end
 
---- Attempts to "cd" to the swap directory, while also setting it to the previous cwd
-local cd_swap = function(state)
-  local alt = get_state("alt_cwd")
-  set_state("alt_cwd", get_cwd())
-  ya.emit("cd", { alt })
+--- Requests a popup key to retrieve mark, then cd's to it.
+local goto_mark = function (state)
+  local all_cands = {}
+
+  for letter = string.byte('a'), string.byte('z') do
+    local index = letter - string.byte('a') + 1
+    table.insert(all_cands, { on = string.char(letter), desc = get_state("mark_" .. index) or "(unset)" })
+  end
+
+  table.insert(all_cands, { on = "'", desc = get_state("mark_27") or "(unset)" })
+
+  local cand = ya.which {
+    cands = all_cands,
+    silent = false,
+  }
+
+  if cand == nil then return end
+
+  local target_dir
+  target_dir = get_state("mark_" .. cand)
+
+  if cand == 27 then
+    set_state("mark_27", get_cwd())
+  end
+
+  ya.emit("cd", { target_dir })
 end
 
+--- Requests a popup key set a mark.
+local set_mark = function(state)
+  local all_cands = {}
+
+  for letter = string.byte('a'), string.byte('z') do
+    local index = letter - string.byte('a') + 1
+    table.insert(all_cands, { on = string.char(letter), desc = get_state("mark_" .. index) or "(unset)" })
+  end
+
+  local cand = ya.which {
+    cands = all_cands,
+    silent = false,
+  }
+
+  if cand == nil then return end
+
+  set_state("mark_" .. cand, get_cwd())
+end
 
 --- Table of actions, because Lua doesn't believe in syntactical switch/case statements.
 local actions = {
   ["clipboard"] = cd_clipboard,
 
-  ["swap"] = cd_swap,
+  ["goto_mark"] = goto_mark,
+
+  ["set_mark"] = set_mark,
 
   default = nil
 }
@@ -96,7 +137,7 @@ local handler = function(args)
   local cwd = get_cwd()
   local last_cwd = get_state("last_cwd") or cwd
   if args.source == "cd" then
-    set_state("alt_cwd", last_cwd)
+    set_state("mark_27", last_cwd)
 
     local history_file, err = io.open(Plugin_path .. "/history", "w+")
     if history_file then
@@ -119,7 +160,7 @@ return {
     ps.sub("relay-stash", handler)
 
     -- TODO: find a way to get the startup/initial cwd
-    set_state("alt_cwd", "~")
+    set_state("mark_27", "~")
   end,
 
   entry = function(state, job)
