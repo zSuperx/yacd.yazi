@@ -1,4 +1,4 @@
-Plugin_path = os.getenv("HOME") .. "/.local/state/yazi/cd-plus/"
+Plugin_path = os.getenv("HOME") .. "/.local/state/yazi/yacd/"
 
 local get_state = ya.sync(function(state, key)
   return state[key]
@@ -71,7 +71,7 @@ local cd_clipboard = function()
   end
 end
 
---- Requests a popup key to retrieve mark, then cd's to it.
+--- Requests a popup key to retrieve a mark, then `cd`s to it.
 local goto_mark = function (state)
   local all_cands = {}
 
@@ -99,7 +99,7 @@ local goto_mark = function (state)
   ya.emit("cd", { target_dir })
 end
 
---- Requests a popup key set a mark.
+--- Requests a popup key to set a mark.
 local set_mark = function(state)
   local all_cands = {}
 
