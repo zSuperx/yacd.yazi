@@ -39,7 +39,8 @@ For example, if using Nix + Home Manager, the below will suffice:
 ## Features
 
 I tend to add features as I find the need for them, but I'm always open to
-suggestions.
+suggestions. That being said, below are the features that have been implemented
+so far!
 
 ### Clipboard `cd`
 
@@ -67,6 +68,7 @@ set/follow.
 In addition to marks `a-z`, the `'` mark is automatically set whenever a direct
 `cd` occurs. This is great for returning to where you last jumped to!
 
+_(Marks will be preserved after Yazi quits, and restored on next run)_
 
 ```toml
 # Example usage
