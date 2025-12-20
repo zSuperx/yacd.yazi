@@ -152,6 +152,8 @@ local set_mark = function()
     table.insert(all_cands, { on = letter, desc = get_state("marks")[letter] or "(unset)" })
   end
 
+  table.insert(all_cands, { on = "'", desc = get_state("marks")["'"] or "(unset)" })
+
   ---@type integer
   local cand = ya.which {
     cands = all_cands,
